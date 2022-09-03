@@ -50,6 +50,7 @@
 | a | Arrow |
 | b | Between Line |
 | c | Clone |
+| Shift-c | Clock |
 | d | Difference |
 | e | Even |
 | h	| Thermometer |
@@ -58,7 +59,6 @@
 | m | Minimum |
 | Shift-m | Maximum |
 | o	| Odd |
-| Shift-o | Clock |
 | p | Palindrome |
 | Shift-p | AntiPalindrome |
 | Ctrl-p | Weak Palindrome |
