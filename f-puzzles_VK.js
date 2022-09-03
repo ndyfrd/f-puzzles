@@ -87,6 +87,7 @@
 			const key = event.key.toLowerCase();
 			
 			if (key === 'tab' && !popup) {
+				event.preventDefault();
 				if (tabbed) {
 					setCameraX(0);
 					tabbed = 0;
