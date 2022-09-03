@@ -100,8 +100,8 @@
 			if (!event.key ||
 
 				(popup === 'Constraint Tools' &&
-				!['a', 'c', 'd', 'e', 'h', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 
-				  'r', 'x', 's', 't', 'v', 'w'].includes(key)) ||
+				!['a', 'b', 'c', 'd', 'e', 'h', 'k', 'l', 'm', 'o', 'p', 'q', 
+				  'r', 's', 't', 'w', 'x', '.', '|', '*'].includes(key)) ||
 
 				(popup === 'Cosmetic Tools' &&
 				!['c', 'l', 'r', 't', 'w'].includes(key)) ||
@@ -132,12 +132,18 @@
 				}
 
 				switch (key) {
-					case 'x': 
-						if (event.shiftKey) setCurrentTool('XV');
-						else setCurrentTool('Extra Region');
+					case 'a': 
+						setCurrentTool('Arrow');
 						break;
-					case 'o': 
-						setCurrentTool('Odd');
+					case 'b': 
+						setCurrentTool('Between Line');
+						break;
+					case 'c': 
+						if (event.shiftKey) setCurrentTool('Clock');
+						else setCurrentTool('Clone');
+						break;
+					case 'd': 
+						setCurrentTool('Difference');
 						break;
 					case 'e': 
 						setCurrentTool('Even');
@@ -145,43 +151,50 @@
 					case 'h': 
 						setCurrentTool('Thermometer');
 						break;
-					case 'p': 
-						setCurrentTool('Palindrome');
-						break;
-					case 'r': 
-						if (event.shiftKey) setCurrentTool('Ratio');
-						else setCurrentTool('Renban');
-						break;
-					case 'w': 
-						setCurrentTool('Whispers');
-						break;
 					case 'k': 
 						setCurrentTool('Killer Cage');
 						break;
 					case 'l': 
 						setCurrentTool('Little Killer Sum');
 						break;
-					case 's': 
-						setCurrentTool('Sandwich Sum');
-						break;
-					case 'd': 
-						setCurrentTool('Difference');
-						break;
-					case 'c': 
-						setCurrentTool('Clone');
-						break;
-					case 'a': 
-						setCurrentTool('Arrow');
-						break;
-					case 'b': 
-						setCurrentTool('Between Line');
-						break;
 					case 'm': 
 						if (event.shiftKey) setCurrentTool('Maximum');
 						else setCurrentTool('Minimum');
 						break;
+					case 'o': 
+						setCurrentTool('Odd');
+						break;
+					case 'p': 
+						if (event.shiftKey) setCurrentTool('AntiPalindrome');
+						else if (event.ctrlKey) setCurrentTool('Weak Palindrome');
+						else setCurrentTool('Palindrome');
+						break;
 					case 'q': 
 						setCurrentTool('Quadruple');
+						break;
+					case 'r': 
+						if (event.shiftKey) setCurrentTool('Ratio');
+						else setCurrentTool('Renban');
+						break;
+					case 's': 
+						setCurrentTool('Sandwich Sum');
+						break;
+					case 'w': 
+						if (event.shiftKey) setCurrentTool('Chinese Whispers');
+						else setCurrentTool('Whispers');
+						break;
+					case 'x': 
+						if (event.shiftKey) setCurrentTool('XV');
+						else setCurrentTool('Extra Region');
+						break;
+					case '.': 
+						setCurrentTool('Sum Dot (Intersection)');
+						break;
+					case '|': 
+						setCurrentTool('Sum Dot (Border)');
+						break;
+					case '*': 
+						setCurrentTool('Sweeper Cell');
 						break;
 				}
 				closePopups();
@@ -262,6 +275,9 @@
 						break;
 					case 'u':
 						undo();
+						break;
+					case '@': 
+						clickSim('Console', 'TrueCandidates');
 						break;
 					case 'delete':
 						if (event.shiftKey) clickSim('Main', 'Clear');
