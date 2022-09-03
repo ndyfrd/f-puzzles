@@ -107,7 +107,7 @@
 				!['c', 'l', 'r', 't', 'w'].includes(key)) ||
 
 				(!popup && !tabbed && !toolCosmetics.includes(currentTool) &&
-				!['g', 'h', 'j', 'k', 'l', 'r', 't', 'u', 'delete'].includes(key)) ||
+				!['g', 'h', 'j', 'k', 'l', 'r', 't', 'u', 'delete', '@'].includes(key)) ||
 
 				(tabbed &&
 				!['?', '>', '#', '@', '!', 'q', 'delete'].includes(key)) ||
