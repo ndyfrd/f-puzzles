@@ -13,10 +13,11 @@
 
 
 
-   	     //----------------------------------------------------------------//
-  	    //   				  Custom Shortcuts.                           //
-	   //                                                                //
-  	  //   	Edit the 'Shortcut' columns below to customise shortcuts.   // 
+   	      //----------------------------------------------------------------//
+  	     //   				  Custom Shortcuts.                            //
+	    //                                                                //
+  	   //   Edit the 'Shortcut' columns below to customise shortcuts.    // 
+	  //   	Valid modifers are 'shift' or 'ctrl' or 'alt'.              //
 	 //   	The spacebar can't be used as a shortcut.                  //
  	//    	Do not edit the 'Action' column. Things will break...     //
    //----------------------------------------------------------------//
@@ -255,8 +256,6 @@ const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
 		document.onkeydown = function(event) {
 			const key = event.key.toLowerCase();
 
-
-
 			if (!event.key ||
 
 				(popup === 'Constraint Tools' &&
@@ -266,9 +265,8 @@ const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
 				!cosmeticShortcuts.includes(key)) ||
 
 				(!popup && !toolCosmetics.includes(currentTool) &&
-				!(consoleShortcuts.includes(key) || 
-					generalShortcuts.includes(key) ||
-					toggleConstraintShortcuts.includes(key))) || 
+				!(consoleShortcuts.includes(key) || generalShortcuts.includes(key) ||
+				  toggleConstraintShortcuts.includes(key))) || 
 
 				disableInputs ||
 				testPaused() ||
