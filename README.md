@@ -1,8 +1,8 @@
 # f-puzzles Keyboard Shortcuts
 <br>
 
-* For speedy navigation of f-puzzles' menus. For example type '**tr**' for Renban or '**ttl**' for the Line cosmetic tool. 
-* The shorcuts are customizable by changing the 'User Edit' section of the script. 
+* For speedy navigation of f-puzzles' menus. For example, to select a constraint: first type **'t'** to open the constraint tools menu, then enter the shortcut for a constraint. To open cosmetic tools type **'tt'**.
+* The shortcuts are customizable by changing the 'User Edit' section of the script. 
 * When a cosmetic tool is selected the keyboard shortcuts are disabled. Use 'ctrl g' to deselect the cosmetic tool and re-enable shortcuts.
 * With the 'New Grid' popup open, select a number (3 - 9) to load a new grid of that size. Use 'ctrl \<number\>' to add 10. (e.g. 'ctrl 0' loads a 10X10 grid.) 
 <br>
