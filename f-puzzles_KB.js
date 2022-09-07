@@ -175,6 +175,7 @@ let doShortcut = function(ev, key, type) {
 	const scObj = shortcuts[type];
 	if (!scObj) return;
 	let modifier = null;
+	let count = 0;
 
 	if (ev.shiftKey) modifier = 'shift';
 	else if (ev.ctrlKey) modifier = 'ctrl';
@@ -186,18 +187,18 @@ let doShortcut = function(ev, key, type) {
 			switch (type) {
 				case 'general':
 					switch (key) {
-						case shortcuts.general['Toggle Solver Console'].split(' ')[scInclModifier ? 1 : 0]:
+						case shortcuts.general[count]:
 							event.preventDefault();
 							clickSim('Main', 'Camera', 'id');
 							break;
-						case shortcuts.general['Open Constraint Tools'].split(' ')[scInclModifier ? 1 : 0]:
+						case shortcuts.general[count]:
 							togglePopup('Constraint Tools');
 							break;
-						case shortcuts.general['Toggle Selected Tool'].split(' ')[scInclModifier ? 1 : 0]:
+						case shortcuts.general[count]:
 							if(currentTool === 'Given Digit') setCurrentTool(lastTool);
 							else setCurrentTool('Given Digit');
 							break;
-						case shortcuts.general['Redo'].split(' ')[scInclModifier ? 1 : 0]:
+						case shortcuts.general[count]:
 							redo();
 							break;
 						case shortcuts.general['Undo'].split(' ')[scInclModifier ? 1 : 0]:
@@ -217,6 +218,7 @@ let doShortcut = function(ev, key, type) {
 					clickSim('Constraints', sc);
 					break;
 			}
+			count++;
 		}
 	}
 }
