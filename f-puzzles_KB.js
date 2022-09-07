@@ -17,7 +17,7 @@
   	     //   				  Custom Shortcuts.                            //
 	    //                                                                //
   	   //   Edit the 'Shortcut' columns below to customise shortcuts.    // 
-	  //   	Valid modifers are 'shift' or 'ctrl' or 'alt'.              //
+	  //   	Valid modifiers are 'shift' or 'ctrl' or 'alt'.              //
 	 //   	The spacebar can't be used as a shortcut.                  //
  	//    	Do not edit the 'Action' column. Things will break...     //
    //----------------------------------------------------------------//
@@ -34,6 +34,7 @@ const shortcuts = {
 	 	'Clear':					'shift delete',
 	 	'Export':					'shift enter',
 	 	'New Grid':					'shift n',
+	 	'Connect':					'insert',
 	 	'Cursor Left': 				'h',
 	 	'Cursor Down': 				'j',
 	 	'Cursor Up': 			  	'k',
@@ -160,7 +161,7 @@ let moveCursor = function(dir) {
 	}
 }
 
-let clickSim = function(sidebar, ref, ifId) {
+let clickSimSidebar = function(sidebar, ref, ifId) {
 	const sideb =  sidebars.filter(sb => sb.title === sidebar)[0];
 	const button = ifId ? sideb.buttons.filter(b => b.id === ref)[0] : 
 								sideb.buttons.filter(b => b.title === ref)[0];
@@ -171,6 +172,21 @@ let clickSim = function(sidebar, ref, ifId) {
 	button.hovering = function(){return true};
 	button.click();
 	button.hovering = button.origHov;
+}
+
+let clickSimButtons = function(ref) {
+	const button = buttons.filter(b => b.id === ref)[0];
+	if (!button) return;
+
+	button.origHov = button.hovering;
+	button.hovering = function(){return true};
+	button.click();
+	button.hovering = button.origHov;
+}
+let setNewGrid = function(ev, key) {
+	let num = ev.ctrlKey ? (parseInt(key) + 10) : parseInt(key);
+	createGrid(num, false, true);
+	closePopups();
 }
 
 let doShortcut = function(ev, key, type) {
@@ -190,7 +206,7 @@ let doShortcut = function(ev, key, type) {
 					switch (key) {
 						case generalShortcuts[0]:
 							event.preventDefault();
-							clickSim('Main', 'Camera', 'id');
+							clickSimSidebar('Main', 'Camera', 'id');
 							break;
 						case generalShortcuts[1]:
 							togglePopup('Constraint Tools');
@@ -206,23 +222,26 @@ let doShortcut = function(ev, key, type) {
 							undo();
 							break;
 						case generalShortcuts[5]:
-							clickSim('Main', 'Clear', 'id');
+							clickSimSidebar('Main', 'Clear', 'id');
 							break;
 						case generalShortcuts[6]:
-							clickSim('Constraints', 'Export');
+							clickSimSidebar('Constraints', 'Export');
 							break;
 						case generalShortcuts[7]:
-							clickSim('Constraints', 'New Grid');
+							clickSimSidebar('Constraints', 'New Grid');
+							break;
+						case generalShortcuts[8]:
+							clickSimButtons('Connect');
 							break;
 					}
 					break;
 				case 'console':
-					clickSim('Console', sc);
+					clickSimSidebar('Console', sc);
 					break;
 				case 'constraint':
 				case 'cosmetic':
 				case 'toggleConstraint':
-					clickSim('Constraints', sc);
+					clickSimSidebar('Constraints', sc);
 					break;
 			}
 		}
@@ -271,6 +290,9 @@ const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
 
 				(popup === 'Cosmetic Tools' &&
 				!cosmeticShortcuts.includes(key)) ||
+
+				(popup === 'New Grid' && 
+				!['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(key)) ||
 
 				(!popup && !toolCosmetics.includes(currentTool) &&
 				!(consoleShortcuts.includes(key) || generalShortcuts.includes(key) ||
@@ -322,6 +344,9 @@ const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
 
 				} else if (popup === 'Cosmetic Tools') {
 					doShortcut(event, key, 'cosmetic');
+
+				} else if (popup === 'New Grid') {
+					setNewGrid(event, key);
 
 				} else if (consoleShortcuts.includes(key)) {
 					doShortcut(event, key, 'console');
