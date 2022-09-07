@@ -13,14 +13,16 @@
 
 
 
-   	      //----------------------------------------------------------------//
-  	     //   				  Custom Shortcuts.                            //
-	    //                                                                //
-  	   //   Edit the 'Shortcut' columns below to customise shortcuts.    // 
-	  //   	Valid modifiers are 'shift' or 'ctrl' or 'alt'.              //
-	 //   	The spacebar can't be used as a shortcut.                  //
- 	//    	Do not edit the 'Action' column. Things will break...     //
-   //----------------------------------------------------------------//
+    //-------------------------------------------------------------------//
+    //                                                                   //
+    //   					  Custom Shortcuts.                          //
+    //                                                                   //
+    //      Edit the 'Shortcut' columns below to customise shortcuts.    // 
+    //      Valid modifiers are 'shift' or 'ctrl' or 'alt'.              //
+    //      The spacebar can't be used as a shortcut.                    //
+    //      Do not edit the 'Action' column. Things will break...        //
+    //                                                                   //
+    //-------------------------------------------------------------------//
 
 
 const shortcuts = {
@@ -31,10 +33,13 @@ const shortcuts = {
 	 	'Toggle Selected Tool': 	'g',
 	 	'Redo':						'r',
 	 	'Undo':						'u',
+	 	'Mode':						'shift m',
 	 	'Clear':					'shift delete',
-	 	'Export':					'shift enter',
+	 	'Settings':					'shift s',
 	 	'New Grid':					'shift n',
-	 	'Connect':					'insert',
+	 	'Export':					'end',
+	 	'Edit Info':				'insert',
+	 	'Connect':					'shift enter',
 	 	'Cursor Left': 				'h',
 	 	'Cursor Down': 				'j',
 	 	'Cursor Up': 			  	'k',
@@ -106,9 +111,11 @@ const shortcuts = {
 };
 
 
-  	  //-------------------------------------------------------------//
- 	 // End of user edits.                                          //
-	//-------------------------------------------------------------//
+    //-------------------------------------------------------------//
+    //                                                             //
+    //                      End of user edits.                     //
+    //                                                             //
+    //-------------------------------------------------------------//
 
 
 
@@ -166,6 +173,7 @@ let clickSimSidebar = function(sidebar, ref, ifId) {
 	const button = ifId ? sideb.buttons.filter(b => b.id === ref)[0] : 
 								sideb.buttons.filter(b => b.title === ref)[0];
 
+	console.log(sideb);
 	if (!button) return;
 
 	button.origHov = button.hovering;
@@ -183,6 +191,7 @@ let clickSimButtons = function(ref) {
 	button.click();
 	button.hovering = button.origHov;
 }
+
 let setNewGrid = function(ev, key) {
 	let num = ev.ctrlKey ? (parseInt(key) + 10) : parseInt(key);
 	createGrid(num, false, true);
@@ -222,20 +231,30 @@ let doShortcut = function(ev, key, type) {
 							undo();
 							break;
 						case generalShortcuts[5]:
-							clickSimSidebar('Main', 'Clear', 'id');
+							clickSimSidebar('Main', 'Mode', 'id');
 							break;
 						case generalShortcuts[6]:
-							clickSimSidebar('Constraints', 'Export');
+							clickSimSidebar('Main', 'Clear', 'id');
 							break;
 						case generalShortcuts[7]:
-							clickSimSidebar('Constraints', 'New Grid');
+							clickSimSidebar('Constraints', 'Settings');
 							break;
 						case generalShortcuts[8]:
+							clickSimSidebar('Constraints', 'New Grid');
+							break;
+						case generalShortcuts[9]:
+							clickSimSidebar('Constraints', 'Export');
+							break;
+						case generalShortcuts[10]:
+							clickSimButtons('EditInfo');
+							break;
+						case generalShortcuts[11]:
 							clickSimButtons('Connect');
 							break;
 					}
 					break;
 				case 'console':
+					if (!buttons.filter(b => b.title === 'Disconnect')[0]) break;
 					clickSimSidebar('Console', sc);
 					break;
 				case 'constraint':
