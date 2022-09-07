@@ -20,7 +20,7 @@
     //      Edit the 'Shortcut' columns below to customise shortcuts.    // 
     //      Valid modifiers are 'shift' or 'ctrl' or 'alt'.              //
     //      The spacebar can't be used as a shortcut.                    //
-    //      Do not edit the 'Action' column. Things will break...        //
+    //      Do not edit the 'Action' column or change the order.         //
     //                                                                   //
     //-------------------------------------------------------------------//
 
