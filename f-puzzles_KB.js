@@ -175,37 +175,42 @@ let doShortcut = function(ev, key, type) {
 	const scObj = shortcuts[type];
 	if (!scObj) return;
 	let modifier = null;
-	let count = 0;
 
 	if (ev.shiftKey) modifier = 'shift';
 	else if (ev.ctrlKey) modifier = 'ctrl';
 	else if (ev.altKey) modifier = 'alt';
 
 	for (let sc in scObj) {
-		let scInclModifier = scObj[sc].includes(modifier) ;
-		if (!(modifier && scInclModifier && scObj[sc].endsWith(key)) != !(scObj[sc] === key)) {
+		if (!(modifier && scObj[sc].includes(modifier) && scObj[sc].endsWith(key)) != 
+			!(scObj[sc] === key)) {
 			switch (type) {
 				case 'general':
 					switch (key) {
-						case shortcuts.general[count]:
+						case generalShortcuts[0]:
 							event.preventDefault();
 							clickSim('Main', 'Camera', 'id');
 							break;
-						case shortcuts.general[count]:
+						case generalShortcuts[1]:
 							togglePopup('Constraint Tools');
 							break;
-						case shortcuts.general[count]:
+						case generalShortcuts[2]:
 							if(currentTool === 'Given Digit') setCurrentTool(lastTool);
 							else setCurrentTool('Given Digit');
 							break;
-						case shortcuts.general[count]:
+						case generalShortcuts[3]:
 							redo();
 							break;
-						case shortcuts.general['Undo'].split(' ')[scInclModifier ? 1 : 0]:
+						case generalShortcuts[4]:
 							undo();
 							break;
-						case shortcuts.general['Clear'].split(' ')[scInclModifier ? 1 : 0]:
+						case generalShortcuts[5]:
 							clickSim('Main', 'Clear', 'id');
+							break;
+						case generalShortcuts[6]:
+							clickSim('Constraints', 'Export');
+							break;
+						case generalShortcuts[7]:
+							clickSim('Constraints', 'New Grid');
 							break;
 					}
 					break;
@@ -218,7 +223,6 @@ let doShortcut = function(ev, key, type) {
 					clickSim('Constraints', sc);
 					break;
 			}
-			count++;
 		}
 	}
 }
