@@ -173,7 +173,6 @@ let clickSimSidebar = function(sidebar, ref, ifId) {
 	const button = ifId ? sideb.buttons.filter(b => b.id === ref)[0] : 
 								sideb.buttons.filter(b => b.title === ref)[0];
 
-	console.log(sideb);
 	if (!button) return;
 
 	button.origHov = button.hovering;
