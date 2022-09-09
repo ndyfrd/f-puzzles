@@ -19,14 +19,11 @@
     //                                                                   //
     //      Edit the 'Shortcut' columns below to customise shortcuts.    // 
     //      Valid modifiers are 'shift' or 'ctrl' or 'alt'.              //
-    //      The spacebar can't be used as a shortcut.                    //
+    //      The spacebar can't be used as a custom shortcut.             //
     //      Do not edit the 'Action' column or change the order.         //
     //                                                                   //
     //-------------------------------------------------------------------//
 
-const userColours =	[ 	'#EEE8D5', '#839496', '#657B83', '#586E75',   
-						'#268BD2', '#6C71C4', '#2AA198', '#859900',
-						'#B58900', '#D33682', '#CB4B16'    			];
 
 const shortcuts = {
 	general: {
@@ -114,11 +111,31 @@ const shortcuts = {
 };
 
 
-    //-------------------------------------------------------------//
-    //                                                             //
-    //                      End of user edits.                     //
-    //                                                             //
-    //-------------------------------------------------------------//
+    //-------------------------------------------------------------------//
+    //                                                                   //
+    //   					  Custom Colours.                            //
+    //                                                                   //
+    //      Edit the array below to create a custom colour pallette.     //
+	//      There is no limit on the number of colours in a pallette.    //
+	//      The pallette can be left empty to only use recent colours.   //
+    //                                                                   //
+    //-------------------------------------------------------------------//
+
+
+
+const userColours =	[ 	
+						'#839496', '#268BD2', '#6C71C4', '#2AA198', 
+						'#859900', '#B58900', '#D33682', '#CB4B16'    			
+					];
+
+
+
+
+    			//-------------------------------------//
+    			//                                     //
+    			//          End of user edits.         //
+    			//                                     //
+    			//-------------------------------------//
 
 
 
