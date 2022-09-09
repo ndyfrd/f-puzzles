@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name		 Fpuzzles_KB
 // @namespace	 http://tampermonkey.net/
-// @version		 1.0
+// @version		 2.0
 // @description  Makes f-puzzles more keyboard-centric
 // @author		 Ennead
 // @match		 https://*.f-puzzles.com/*
@@ -24,6 +24,9 @@
     //                                                                   //
     //-------------------------------------------------------------------//
 
+const userColours =	[ 	'#EEE8D5', '#839496', '#657B83', '#586E75',   
+						'#268BD2', '#6C71C4', '#2AA198', '#859900',
+						'#B58900', '#D33682', '#CB4B16'    			];
 
 const shortcuts = {
 	general: {
@@ -122,24 +125,25 @@ const shortcuts = {
 
 
 
-let generateShortcutArr = function(type) {
+
+generateShortcutArr = function(type) {
 	const scObj = shortcuts[type];
 	const scArr = [];
 
 	for (let sc in scObj) {
 
 		if (scObj[sc].includes(' ')) {
-			key = scObj[sc].split(' ');
+			let key = scObj[sc].split(' ');
 			scArr.push(key[1]);
 		} else {
 			scArr.push(scObj[sc]);
 		}
 	}
-	uniqueScArr = [...new Set(scArr)];
+	let uniqueScArr = [...new Set(scArr)];
 	return uniqueScArr;
 }
 
-let moveCursor = function(dir) {
+moveCursor = function(dir) {
 	var x = selection[selection.length - 1].i;
 	var y = selection[selection.length - 1].j;
 
@@ -168,7 +172,7 @@ let moveCursor = function(dir) {
 	}
 }
 
-let clickSimSidebar = function(sidebar, ref, ifId) {
+clickSimSidebar = function(sidebar, ref, ifId) {
 	const sideb =  sidebars.filter(sb => sb.title === sidebar)[0];
 	const button = ifId ? sideb.buttons.filter(b => b.id === ref)[0] : 
 								sideb.buttons.filter(b => b.title === ref)[0];
@@ -181,7 +185,7 @@ let clickSimSidebar = function(sidebar, ref, ifId) {
 	button.hovering = button.origHov;
 }
 
-let clickSimButtons = function(ref) {
+clickSimButtons = function(ref) {
 	const button = buttons.filter(b => b.id === ref)[0];
 	if (!button) return;
 
@@ -191,13 +195,13 @@ let clickSimButtons = function(ref) {
 	button.hovering = button.origHov;
 }
 
-let setNewGrid = function(ev, key) {
+setNewGrid = function(ev, key) {
 	let num = ev.ctrlKey ? (parseInt(key) + 10) : parseInt(key);
 	createGrid(num, false, true);
 	closePopups();
 }
 
-let doShortcut = function(ev, key, type) {
+doShortcut = function(ev, key, type) {
 	const scObj = shortcuts[type];
 	if (!scObj) return;
 	let modifier = null;
@@ -266,11 +270,41 @@ let doShortcut = function(ev, key, type) {
 	}
 }
 
+checkHex = function(str) {
+	const hexChars = '#0123456789abcdefABCDEF';
+	for (let i = 0; i < str.length; i++) {
+		if (hexChars.includes(str[i])) continue;
+		return false;
+	}
+	return (str.length === 7 ? true : false);
+}
+
+storeCol = function(colInput) {
+	let col = document.getElementById(colInput).value;
+	if (checkHex(col) && !colArr.includes(col)) {
+		colArr.push(col);
+	}
+}
+
+cycleCol = function(elem, key) {
+	let nextCol = colArr.indexOf(elem.value) + 1;
+	if (key === ' ') 
+		elem.value = (nextCol < colArr.length) ? colArr[nextCol] : colArr[0];
+}
+
+
 const generalShortcuts = generateShortcutArr('general');
 const constraintShortcuts = generateShortcutArr('constraint');
 const consoleShortcuts = generateShortcutArr('console');
 const cosmeticShortcuts = generateShortcutArr('cosmetic');
 const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
+
+document.getElementById('baseC').onfocusout = function() {storeCol('baseC')};
+document.getElementById('fontC').onfocusout = function() {storeCol('fontC')};
+document.getElementById('outlineC').onfocusout = function() {storeCol('outlineC')};
+const colInputs = ['baseC', 'fontC', 'outlineC'];
+const colArr = userColours;
+colArr.splice(0, 0, '#FFFFFF');
 
 (function() {
 	'use strict';
@@ -300,6 +334,9 @@ const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
 		const prevOnKeyDown = document.onkeydown;
 		document.onkeydown = function(event) {
 			const key = event.key.toLowerCase();
+			const elem = document.activeElement;
+
+			if (colInputs.includes(elem.id)) cycleCol(elem, key);
 
 			if (!event.key ||
 
@@ -316,9 +353,9 @@ const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
 				!(consoleShortcuts.includes(key) || generalShortcuts.includes(key) ||
 				  toggleConstraintShortcuts.includes(key))) || 
 
+				toolCosmetics.includes(currentTool) ||
 				disableInputs ||
 				testPaused() ||
-				toolCosmetics.includes(currentTool) ||
 				event.metaKey) 
 			{
 				prevOnKeyDown(event);
