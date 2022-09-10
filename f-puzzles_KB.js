@@ -116,16 +116,16 @@ const shortcuts = {
     //   					  Custom Colours.                            //
     //                                                                   //
     //      Edit the array below to create a custom colour pallette.     //
+    //      Uncomment the default colours to use/edit them.              //
 	//      There is no limit on the number of colours in a pallette.    //
 	//      The pallette can be left empty to only use recent colours.   //
     //                                                                   //
     //-------------------------------------------------------------------//
 
 
-
 const userColours =	[ 	
-						'#839496', '#268BD2', '#6C71C4', '#2AA198', 
-						'#859900', '#B58900', '#D33682', '#CB4B16'    			
+//						'#839496', '#268BD2', '#6C71C4', '#2AA198', 
+//						'#859900', '#B58900', '#D33682', '#CB4B16'    			
 					];
 
 
@@ -298,9 +298,8 @@ checkHex = function(str) {
 
 storeCol = function(colInput) {
 	let col = document.getElementById(colInput).value;
-	if (checkHex(col) && !colArr.includes(col)) {
+	if (checkHex(col) && !colArr.includes(col)) 
 		colArr.push(col);
-	}
 }
 
 cycleCol = function(elem, key) {
@@ -321,7 +320,7 @@ document.getElementById('fontC').onfocusout = function() {storeCol('fontC')};
 document.getElementById('outlineC').onfocusout = function() {storeCol('outlineC')};
 const colInputs = ['baseC', 'fontC', 'outlineC'];
 const colArr = userColours;
-colArr.splice(0, 0, '#FFFFFF');
+colArr.splice(0, 0, '#FFFFFF', '#000000');
 
 (function() {
 	'use strict';
