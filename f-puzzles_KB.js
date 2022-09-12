@@ -113,7 +113,7 @@ const shortcuts = {
 
     //-------------------------------------------------------------------//
     //                                                                   //
-    //   					  Custom Colours.                            //
+    //   				  Custom Constraint Colours.                     //
     //                                                                   //
     //      Edit the array below to create a custom colour pallette.     //
     //      Uncomment the default colours to use/edit them.              //
@@ -123,12 +123,32 @@ const shortcuts = {
     //-------------------------------------------------------------------//
 
 
-const userColours =	[ 	
+const customConstraintCols =	[ 	
 //						'#839496', '#268BD2', '#6C71C4', '#2AA198', 
 //						'#859900', '#B58900', '#D33682', '#CB4B16'    			
 					];
 
 
+    //-------------------------------------------------------------------//
+    //                                                                   //
+    //   					 Custom Solver Colours.                      //
+    //                                                                   //
+    //      Edit below to create custom solving highlight colours.       //
+    //      The current colours are just random placeholders.            //
+    //                                                                   //
+    //-------------------------------------------------------------------//
+
+
+const customSolverHighlights = 	[
+								//			1          2          3       
+									  /*Reserved*/ '#839496', '#268BD2', 
+								//			4          5          6       
+										'#6C71C4', '#2AA198', '#859900', 
+								//			7          8          9       
+										'#B58900', '#D33682', '#CB4B16',
+								//			10         11         12       
+										'#D0D0FF', '#8080F0', '#FF80FF' 
+								];
 
 
     			//-------------------------------------//
@@ -302,10 +322,9 @@ storeCol = function(colInput) {
 		colArr.push(col);
 }
 
-cycleCol = function(elem, key) {
+cycleCol = function(elem)  {
 	let nextCol = colArr.indexOf(elem.value) + 1;
-	if (key === ' ') 
-		elem.value = (nextCol < colArr.length) ? colArr[nextCol] : colArr[0];
+	elem.value = (nextCol < colArr.length) ? colArr[nextCol] : colArr[0];
 }
 
 
@@ -319,7 +338,7 @@ document.getElementById('baseC').onfocusout = function() {storeCol('baseC')};
 document.getElementById('fontC').onfocusout = function() {storeCol('fontC')};
 document.getElementById('outlineC').onfocusout = function() {storeCol('outlineC')};
 const colInputs = ['baseC', 'fontC', 'outlineC'];
-const colArr = userColours;
+const colArr = customConstraintCols;
 colArr.splice(0, 0, '#FFFFFF', '#000000');
 
 (function() {
@@ -352,7 +371,9 @@ colArr.splice(0, 0, '#FFFFFF', '#000000');
 			const key = event.key.toLowerCase();
 			const elem = document.activeElement;
 
-			if (colInputs.includes(elem.id)) cycleCol(elem, key);
+			highlightCs = customSolverHighlights;
+
+			if (key === ' ' && colInputs.includes(elem.id)) cycleCol(elem);
 
 			if (!event.key ||
 
@@ -369,6 +390,7 @@ colArr.splice(0, 0, '#FFFFFF', '#000000');
 				!(consoleShortcuts.includes(key) || generalShortcuts.includes(key) ||
 				  toggleConstraintShortcuts.includes(key))) || 
 
+				(popup === 'Edit Info') ||
 				toolCosmetics.includes(currentTool) ||
 				disableInputs ||
 				testPaused() ||
