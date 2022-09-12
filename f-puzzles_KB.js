@@ -369,7 +369,7 @@ const colInputs = ['baseC', 'fontC', 'outlineC'];
 
 				(!popup && !toolCosmetics.includes(currentTool) &&
 				!(consoleShortcuts.includes(key) || generalShortcuts.includes(key) ||
-				  toggleConstraintShortcuts.includes(key))) || 
+				  toggleConstraintShortcuts.includes(key) || movementShortcuts.includes(key))) || 
 
 				(popup === 'Edit Info') ||
 				toolCosmetics.includes(currentTool) ||
