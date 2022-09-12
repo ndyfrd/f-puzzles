@@ -128,31 +128,9 @@ const shortcuts = {
 
 
 const customConstraintCols =	[ 	
-//						'#839496', '#268BD2', '#6C71C4', '#2AA198', 
-//						'#859900', '#B58900', '#D33682', '#CB4B16'    			
+						'#839496', '#268BD2', '#6C71C4', '#2AA198', 
+						'#859900', '#B58900', '#D33682', '#CB4B16'    			
 					];
-
-
-    //-------------------------------------------------------------------//
-    //                                                                   //
-    //   					 Custom Solver Colours.                      //
-    //                                                                   //
-    //      Edit below to create custom solving highlight colours.       //
-    //      The current colours are just random placeholders.            //
-    //                                                                   //
-    //-------------------------------------------------------------------//
-
-
-const customSolverHighlights = 	[
-										  /*1*/      /*2*/      /*3*/       
-									  /*Reserved*/ '#A8A8A8', '#000000', 
-										  /*4*/      /*5*/      /*6*/       
-							            '#FFA0A0', '#FFE060', '#FFFFB0', 
-										  /*7*/      /*8*/      /*9*/       
-										'#B0FFB0', '#60D060', '#D0D0FF',
-								     	  /*10*/     /*11*/     /*12*/      
-										'#8080F0', '#FF80FF', '#FFD0D0' 
-								];
 
 
     			//-------------------------------------//
@@ -167,7 +145,7 @@ const customSolverHighlights = 	[
 
 
 
-generateShortcutArr = function(type) {
+let generateShortcutArr = function(type) {
 	const scObj = shortcuts[type];
 	const scArr = [];
 
@@ -183,8 +161,14 @@ generateShortcutArr = function(type) {
 	let uniqueScArr = [...new Set(scArr)];
 	return uniqueScArr;
 }
+const generalShortcuts = generateShortcutArr('general');
+const movementShortcuts = generateShortcutArr('movement');
+const constraintShortcuts = generateShortcutArr('constraint');
+const consoleShortcuts = generateShortcutArr('console');
+const cosmeticShortcuts = generateShortcutArr('cosmetic');
+const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
 
-moveCursor = function(dir) {
+let moveCursor = function(dir) {
 	var x = selection[selection.length - 1].i;
 	var y = selection[selection.length - 1].j;
 
@@ -213,7 +197,7 @@ moveCursor = function(dir) {
 	}
 }
 
-clickSimSidebar = function(sidebar, ref, ifId) {
+let clickSimSidebar = function(sidebar, ref, ifId) {
 	const sideb =  sidebars.filter(sb => sb.title === sidebar)[0];
 	const button = ifId ? sideb.buttons.filter(b => b.id === ref)[0] : 
 								sideb.buttons.filter(b => b.title === ref)[0];
@@ -226,7 +210,7 @@ clickSimSidebar = function(sidebar, ref, ifId) {
 	button.hovering = button.origHov;
 }
 
-clickSimButtons = function(ref) {
+let clickSimButtons = function(ref) {
 	const button = buttons.filter(b => b.id === ref)[0];
 	if (!button) return;
 
@@ -236,13 +220,13 @@ clickSimButtons = function(ref) {
 	button.hovering = button.origHov;
 }
 
-setNewGrid = function(ev, key) {
+let setNewGrid = function(ev, key) {
 	let num = ev.ctrlKey ? (parseInt(key) + 10) : parseInt(key);
 	createGrid(num, false, true);
 	closePopups();
 }
 
-doShortcut = function(ev, key, type) {
+let doShortcut = function(ev, key, type) {
 	const scObj = shortcuts[type];
 	if (!scObj) return;
 	let modifier = null;
@@ -311,7 +295,7 @@ doShortcut = function(ev, key, type) {
 	}
 }
 
-checkHex = function(str) {
+let checkHex = function(str) {
 	const hexChars = '#0123456789abcdefABCDEF';
 	for (let i = 0; i < str.length; i++) {
 		if (hexChars.includes(str[i])) continue;
@@ -320,63 +304,36 @@ checkHex = function(str) {
 	return (str.length === 7 ? true : false);
 }
 
-storeCol = function(colInput) {
+const colArr = customConstraintCols;
+colArr.splice(0, 0, '#FFFFFF', '#000000');
+let storeCol = function(colInput) {
 	let col = document.getElementById(colInput).value;
 	if (checkHex(col) && !colArr.includes(col)) 
 		colArr.push(col);
+	console.log('store');
 }
 
-cycleCol = function(elem)  {
+let cycleCol = function(elem)  {
 	let nextCol = colArr.indexOf(elem.value) + 1;
 	elem.value = (nextCol < colArr.length) ? colArr[nextCol] : colArr[0];
 }
 
-
-const generalShortcuts = generateShortcutArr('general');
-const movementShortcuts = generateShortcutArr('movement');
-const constraintShortcuts = generateShortcutArr('constraint');
-const consoleShortcuts = generateShortcutArr('console');
-const cosmeticShortcuts = generateShortcutArr('cosmetic');
-const toggleConstraintShortcuts = generateShortcutArr('toggleConstraint');
-
-document.getElementById('baseC').onfocusout = function() {storeCol('baseC')};
-document.getElementById('fontC').onfocusout = function() {storeCol('fontC')};
-document.getElementById('outlineC').onfocusout = function() {storeCol('outlineC')};
+document.getElementById('baseC').addEventListener('focusout', (event) => storeCol('baseC'));
+document.getElementById('outlineC').addEventListener('focusout', (event) => storeCol('outlineC'));
+document.getElementById('fontC').addEventListener('focusout', (event) => storeCol('fontC'));
 const colInputs = ['baseC', 'fontC', 'outlineC'];
-const colArr = customConstraintCols;
-colArr.splice(0, 0, '#FFFFFF', '#000000');
 
 (function() {
 	'use strict';
 
 	const doShim = function() {
 
-		let origCreateSidebarConstraints = createSidebarConstraints;
-		createSidebarConstraints = function() {
-			origCreateSidebarConstraints();
-			var x = gridX - (sidebarDist + sidebarW/2);
-			var y = gridY - buttonLH - buttonGap;
-
-			const constraintsSidebar = sidebars.filter(sb => sb.title === 'Constraints')[0];
-			constraintsSidebar.sections.push(new section(x, y, currentTool));
-		}
-
-		let origCreateSidebarConsole = createSidebarConsole;
-		createSidebarConsole = function() {
-			origCreateSidebarConsole();
-			var x = gridX + gridSL + (sidebarDist + sidebarW) + (sidebarGap + sidebarW/2);
-			var y = gridY - buttonLH - buttonGap;
-
-			const consoleSidebar = sidebars.filter(sb => sb.title === 'Console')[0];
-			consoleSidebar.sections.push(new section(x, y, currentTool));
-		}
 
 		const prevOnKeyDown = document.onkeydown;
 		document.onkeydown = function(event) {
 			const key = event.key.toLowerCase();
 			const elem = document.activeElement;
 
-			highlightCs = customSolverHighlights;
 
 			if (key === ' ' && colInputs.includes(elem.id)) cycleCol(elem);
 
