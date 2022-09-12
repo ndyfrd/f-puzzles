@@ -39,7 +39,11 @@ const shortcuts = {
 	 	'New Grid':					'shift n',
 	 	'Export':					'end',
 	 	'Edit Info':				'insert',
-	 	'Connect':					'shift enter',
+	 	'Connect':					'shift enter'
+	},
+
+	movement: {
+// 		Action 						Shortcut
 	 	'Cursor Left': 				'h',
 	 	'Cursor Down': 				'j',
 	 	'Cursor Up': 			  	'k',
@@ -329,6 +333,7 @@ cycleCol = function(elem)  {
 
 
 const generalShortcuts = generateShortcutArr('general');
+const movementShortcuts = generateShortcutArr('movement');
 const constraintShortcuts = generateShortcutArr('constraint');
 const consoleShortcuts = generateShortcutArr('console');
 const cosmeticShortcuts = generateShortcutArr('cosmetic');
@@ -402,28 +407,29 @@ colArr.splice(0, 0, '#FFFFFF', '#000000');
 
 			event.preventDefault();
 
-			if (!popup && generalShortcuts.includes(key)) {
-
-				doShortcut(event, key, 'general');
-
+			if (!popup && movementShortcuts.includes(key)) {
 				if (selection.length) {
 					switch(key) {
-						case shortcuts.general['Cursor Left']:
+						case shortcuts.movement['Cursor Left']:
 							moveCursor('lt');
 							break;
-						case shortcuts.general['Cursor Down']:
+						case shortcuts.movement['Cursor Down']:
 							moveCursor('dn');
 							break;
-						case shortcuts.general['Cursor Up']:
+						case shortcuts.movement['Cursor Up']:
 							moveCursor('up');
 							break;
-						case shortcuts.general['Cursor Right']:
+						case shortcuts.movement['Cursor Right']:
 							moveCursor('rt');
 							break;
 					}
 				} else {
 					selection.push(grid[0][0]);
 				}
+			}
+
+			if (!popup && generalShortcuts.includes(key)) {
+				doShortcut(event, key, 'general');
 
 			} else {
 				if (popup === 'Constraint Tools') {

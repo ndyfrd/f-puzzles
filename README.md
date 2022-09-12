@@ -13,7 +13,6 @@
 <br>
 
 ## General Shortcuts
-
 |Key|Action|
 | --- | --- |
 | tab | Toggle Solver Console |
@@ -29,6 +28,11 @@
 | end | Export |
 | insert | Edit Info |
 | shift enter | Connect |
+<br>
+
+## Movement Shortcuts
+|Key|Action|
+| --- | --- |
 | h | Cursor Left |
 | j | Cursor Down |
 | k | Cursor Up |
@@ -36,9 +40,7 @@
 | Shift [h,j,k,l] | Select Area |
 <br>
 
-
 ## Solver Console Shortcuts
-
 |Key|Action|
 | --- | --- |
 | ? | Solution Path |
@@ -50,7 +52,6 @@
 <br>
 
 ## Toggle Constraints
-
 |Key|Action|
 | --- | --- |
 | + | Diagonal + |
