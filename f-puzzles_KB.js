@@ -334,6 +334,25 @@ const colInputs = ['baseC', 'fontC', 'outlineC'];
 			const key = event.key.toLowerCase();
 			const elem = document.activeElement;
 
+			let origCreateSidebarConstraints = createSidebarConstraints;
+			createSidebarConstraints = function() {
+				origCreateSidebarConstraints();
+				var x = gridX - (sidebarDist + sidebarW/2);
+				var y = gridY - buttonLH - buttonGap;
+
+				const constraintsSidebar = sidebars.filter(sb => sb.title === 'Constraints')[0];
+				constraintsSidebar.sections.push(new section(x, y, currentTool));
+			}
+
+			let origCreateSidebarConsole = createSidebarConsole;
+			createSidebarConsole = function() {
+				origCreateSidebarConsole();
+				var x = gridX + gridSL + (sidebarDist + sidebarW) + (sidebarGap + sidebarW/2);
+				var y = gridY - buttonLH - buttonGap;
+
+				const consoleSidebar = sidebars.filter(sb => sb.title === 'Console')[0];
+				consoleSidebar.sections.push(new section(x, y, currentTool));
+			}
 
 			if (key === ' ' && colInputs.includes(elem.id)) cycleCol(elem);
 
