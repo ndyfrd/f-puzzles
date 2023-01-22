@@ -364,6 +364,8 @@ const colInputs = ['baseC', 'fontC', 'outlineC'];
                 (popup === 'Cosmetic Tools' &&
                 !cosmeticShortcuts.includes(key)) ||
 
+				(popup === 'Export') ||
+
                 (popup === 'New Grid' && 
                 !['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(key)) ||
 
